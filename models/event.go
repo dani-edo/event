@@ -4,10 +4,10 @@ import "time"
 
 type Event struct {
 	ID          int
-	Name        string
-	Description string
-	Location    string
-	DateTime    time.Time
+	Name        string    `binding:"required" json:"name"`
+	Description string    `binding:"required" json:"description"`
+	Location    string    `binding:"required" json:"location"`
+	DateTime    time.Time `binding:"required" json:"date_time"`
 	UserID      int
 }
 
