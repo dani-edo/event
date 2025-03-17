@@ -1,6 +1,9 @@
 package models
 
-import "edo.com/event/db"
+import (
+	"edo.com/event/db"
+	"edo.com/event/utils"
+)
 
 type User struct {
 	ID       int64  `json:"id"`
@@ -14,13 +17,18 @@ func (user User) Save() error {
 	`
 	stmt, err := db.DB.Prepare(query)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer stmt.Close()
 
-	result, err := stmt.Exec(user.Email, user.Password)
+	hasedPassword, err := utils.HashPassword(user.Password)
 	if err != nil {
-		panic(err)
+		return err
+	}
+
+	result, err := stmt.Exec(user.Email, hasedPassword)
+	if err != nil {
+		return err
 	}
 	id, err := result.LastInsertId()
 	user.ID = id
