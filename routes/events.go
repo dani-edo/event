@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"edo.com/event/models"
+	"edo.com/event/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,8 +19,20 @@ func getEvents(context *gin.Context) {
 }
 
 func createEvent(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not Authorized"})
+		return
+	}
+
+	err := utils.VerifyToken(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not Authorized"})
+		return
+	}
+
 	var event models.Event
-	err := context.ShouldBindJSON(&event) // bind the request body to the event struct
+	err = context.ShouldBindJSON(&event) // bind the request body to the event struct
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not create event", "error": err.Error()})
