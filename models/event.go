@@ -12,10 +12,10 @@ type Event struct {
 	Description string    `binding:"required" json:"description"`
 	Location    string    `binding:"required" json:"location"`
 	DateTime    time.Time `binding:"required" json:"date_time"`
-	UserID      int
+	UserID      int64
 }
 
-func (e Event) Save() error {
+func (e *Event) Save() error {
 	query := `
 	INSERT INTO events (name, description, location, date_time, user_id)
 	VALUES (?, ?, ?, ?, ?)` // ?: placeholder: prevent SQL injection

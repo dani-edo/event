@@ -13,7 +13,7 @@ type User struct {
 	Password string `binding:"required" json:"password"`
 }
 
-func (user User) Save() error {
+func (user *User) Save() error {
 	query := `
 		INSERT INTO users (email, password) VALUES (?, ?)
 	`
@@ -37,7 +37,7 @@ func (user User) Save() error {
 	return err
 }
 
-func (user User) ValidateCredentials() error {
+func (user *User) ValidateCredentials() error { // pointer receiver because we want to modify the user struct on bind user.ID
 	query := `
 		SELECT id, password FROM users WHERE email = ?`
 	row := db.DB.QueryRow(query, user.Email)
