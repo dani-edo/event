@@ -39,11 +39,11 @@ func (user User) Save() error {
 
 func (user User) ValidateCredentials() error {
 	query := `
-		SELECT password FROM users WHERE email = ?`
+		SELECT id, password FROM users WHERE email = ?`
 	row := db.DB.QueryRow(query, user.Email)
 
 	var retrievePassword string
-	err := row.Scan(&retrievePassword)
+	err := row.Scan(&user.ID, &retrievePassword) // bind user.ID to be used in routes/users.go (GenerateToken)
 	if err != nil {
 		return errors.New("Invalid credentials")
 	}
