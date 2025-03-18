@@ -1,9 +1,10 @@
-PUT  http://localhost:8080/events/1
+PUT  http://localhost:8080/events/9
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVkbzRAYW51LmNvbSIsImV4cCI6MTc0MjI4MDAyMiwidXNlcklkIjo0fQ.zeETFYKsKcYMJabWc2JRcY-yTHYVVfbPKd3kxMIinWc
 
 {
-    "name": "bukan event 1",
-    "description": "test description",
-    "location": "test location",
-    "date_time": "2025-03-17T00:00:00.000Z"
+    "name": "Event 9 Edited!",
+    "description": "test description Edited",
+    "location": "test location Edited",
+    "date_time": "2025-03-18T00:00:00.000Z"
 }
